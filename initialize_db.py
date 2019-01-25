@@ -1,12 +1,7 @@
 import xml.etree.ElementTree as ET 
-from sqlalchemy import create_engine
 from dateutil import parser as datetime_parser
-from model import Post, Session, Base
-
-
-engine = create_engine('sqlite:///./data/data.db', echo=True)
-Base.metadata.create_all(engine)
-Session.configure(bind=engine)
+from model import Post
+from db_engine import engine, Session
 
 # Step 1: Start transaction
 session = Session()
