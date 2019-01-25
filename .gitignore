@@ -8,3 +8,5 @@ data
 *.db
 
 *.xml
+
+node_modules
