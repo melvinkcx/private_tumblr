@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, UnicodeText, Unicode
+from sqlalchemy import Column, Integer, String, UnicodeText, Unicode, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -13,7 +13,7 @@ class Post(Base):
     url_with_slug = Column(Unicode)
     type = Column(String)
     date_gmt = Column(String)
-    date = Column(String)
+    date = Column(DateTime)
     unix_timestamp = Column(String)
     format = Column(String)
     reblog_key = Column(String)

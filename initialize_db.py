@@ -1,6 +1,8 @@
 import xml.etree.ElementTree as ET 
 from sqlalchemy import create_engine
+from dateutil import parser as datetime_parser
 from model import Post, Session, Base
+
 
 engine = create_engine('sqlite:///./data/data.db', echo=True)
 Base.metadata.create_all(engine)
@@ -22,7 +24,12 @@ with open('./data/posts.xml', 'r') as f:
         _valid_attr = Post.__dict__.keys()
         post_attr = filter(lambda x: x if x[0] in _valid_attr else None, post_attr)
 
-        add_posts.append(Post(**dict(post_attr)))
+        post_attr = dict(post_attr)
+
+        # Parse datetime
+        post_attr['date'] = datetime_parser.parse(post_attr['date']) if post_attr['date'] else None
+
+        add_posts.append(Post(**post_attr))
 
 # Step 3: Read all post content
 import glob
