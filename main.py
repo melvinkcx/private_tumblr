@@ -1,6 +1,6 @@
 import sqlalchemy
 from sqlalchemy.orm import load_only
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_socketio import SocketIO
 from flask_cors import CORS
 from model import Post
@@ -8,13 +8,16 @@ from db_engine import engine, Session
 
 app_name = "private_tumblr"
 
-app = Flask(app_name)
+app = Flask(app_name, static_url_path="/")
 CORS(app)
 
 @app.route('/')
-def index():
-    # TODO This should return React page
-    return 'home page'
+@app.route('/<path:subpath>')
+def index(subpath=None):
+    if subpath is None:
+        return send_from_directory('ui/build/default/', 'index.html')
+    else:
+        return send_from_directory('ui/build/default', subpath)
 
 @app.route('/posts')
 def get_posts():

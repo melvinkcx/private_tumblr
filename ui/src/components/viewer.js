@@ -42,7 +42,7 @@ class Viewer extends LitElement {
             // To prevent re-rendering
             data = data.map((x) => {
                 const div = document.createElement('div');
-                x.html_string && (x.html_string = x.html_string.replace(/autoplay="autoplay"/g, ''))
+                x.html_string && (x.html_string = x.html_string.replace(/autoplay="autoplay"/g, '').replace(/ autoplay /g, ' '))
                 div.innerHTML = x.html_string;
                 return html`
                     <div class="post-wrapper">
