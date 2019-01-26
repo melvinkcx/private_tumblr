@@ -11,7 +11,7 @@ class NavBar extends LitElement {
                     right: 0;
                     box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
                     display: flex;
-                    background: rgba(164, 0, 0, 1);
+                    background: #3c0069;
                     z-index: 1000;
                 }
                 .brand-logo {
