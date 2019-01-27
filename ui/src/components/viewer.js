@@ -74,7 +74,25 @@ class Viewer extends LitElement {
                     margin-right: auto;
                     height: 100%;
                     display: block;
-                    max-width: 900px;
+                }
+                @media (max-width: 350px) {
+                    .wrapper {
+                        max-width: 95%;
+                    }
+                }
+                @media (min-width: 600px) {
+                    .wrapper {
+                        max-width: 85%;
+                    }
+                }
+                @media (min-width: 900px) {
+                    .wrapper {
+                        max-width: 75%;
+                    }
+                }
+                .wrapper {
+                    margin-left: auto;
+                    margin-right: auto;
                 }
                 .post-wrapper {
                     box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
