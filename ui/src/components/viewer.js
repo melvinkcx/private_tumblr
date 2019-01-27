@@ -1,5 +1,8 @@
 import { LitElement, html } from 'lit-element';
 
+const DEBUG = true
+const domain = DEBUG ? 'http://localhost:5000' : '';
+
 class Viewer extends LitElement {
     static get properties() {
         return {
@@ -12,12 +15,12 @@ class Viewer extends LitElement {
 
     constructor() {
         super();
-        this.url = 'http://localhost:5000/posts';
+        this.url = `${domain}/posts`;
         this.posts = [];
         this.currentPage = 1;
 
         // Set up event listener
-        window.onscroll = this.onScroll.bind(this);
+        // window.onscroll = this.onScroll.bind(this);
 
         // Fetch first page of posts
         this.fetchPosts();
@@ -41,11 +44,13 @@ class Viewer extends LitElement {
 
             // To prevent re-rendering
             data = data.map((x) => {
+                if (!x.html_string) { return; }
+
                 const div = document.createElement('div');
-                x.html_string && (x.html_string = x.html_string.replace(/autoplay="autoplay"/g, '').replace(/ autoplay /g, ' '))
+                x.html_string && (x.html_string = x.html_string.replace(/autoplay="autoplay"/g, '').replace(/autoplay/g, '').replace(/autoplay=""/g, '').replace(/autoplay="false"/g, ''))
                 div.innerHTML = x.html_string;
                 return html`
-                    <div class="post-wrapper">
+                    <div class="post-wrapper" id=${x.id}>
                         ${div}
                     </div>
                 `;
@@ -67,18 +72,17 @@ class Viewer extends LitElement {
                     margin-top: 68px;
                     margin-left: auto;
                     margin-right: auto;
-                    width: 70%;
                     height: 100%;
                     display: block;
-                }
-                .wrapper {
-                    overflow: auto;
+                    max-width: 900px;
                 }
                 .post-wrapper {
                     box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
                     margin-bottom: 20px;
                     background: rgba(230, 230, 240, 1);
                     padding: 10px 20px;
+                    margin-left: 20px;
+                    margin-right: 20px;
                 }
                 .post-wrapper img,
                 .post-wrapper embed,
