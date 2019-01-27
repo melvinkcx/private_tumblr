@@ -1,27 +1,27 @@
 import { LitElement, html } from 'lit-element';
 
-const DEBUG = true
-const domain = DEBUG ? 'http://localhost:5000' : '';
-
 class Viewer extends LitElement {
     static get properties() {
         return {
-            time: {type: Number},
-            posts: {type: Array},
-            currentPage: {type: Number},
-            fetching: {type: Boolean},
+            domain: String,
+            time: Number,
+            posts: Array,
+            currentPage: Number,
+            fetching: Boolean,
         };
     }
 
     constructor() {
         super();
-        this.url = `${domain}/posts`;
         this.posts = [];
         this.currentPage = 1;
+        this.fetching = false;
 
         // Set up event listener
         // window.onscroll = this.onScroll.bind(this);
+    }
 
+    firstUpdated() {
         // Fetch first page of posts
         this.fetchPosts();
     }
@@ -39,7 +39,12 @@ class Viewer extends LitElement {
 
         try {
             this.fetching = true;
-            const response = await fetch(`${this.url}?page=${this.currentPage}&page_size=10`, {method: 'GET'});
+            const response = await fetch(`${this.domain}/posts?page=${this.currentPage}&page_size=10`, {method: 'GET'});
+
+            if (response.status !== 200) {
+                return;
+            }
+            
             let {data} = await response.json();
 
             // To prevent re-rendering
@@ -69,7 +74,7 @@ class Viewer extends LitElement {
         return html`
             <style>
                 :host {
-                    margin-top: 68px;
+                    margin-top: 58px;
                     margin-left: auto;
                     margin-right: auto;
                     height: 100%;
@@ -91,6 +96,8 @@ class Viewer extends LitElement {
                     }
                 }
                 .wrapper {
+                    padding-top: 20px;
+                    padding-bottom: 20px;
                     margin-left: auto;
                     margin-right: auto;
                 }

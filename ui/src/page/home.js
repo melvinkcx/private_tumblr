@@ -2,7 +2,35 @@ import { LitElement, html } from 'lit-element';
 import '../components/navbar';
 import '../components/viewer';
 
+const DEBUG = true
+const domain = DEBUG ? 'http://localhost:5000' : '';
+
 class Home extends LitElement {
+  static get properties() {
+    return {
+      isInitialized: {type: Boolean},
+    }
+  }
+
+  constructor() {
+    super();
+
+    // Get initialized status
+    this.getInitializationStatus();
+  }
+
+  async getInitializationStatus() {
+    try {
+      const response = await fetch(`${domain}/initialized`);
+      if (response.status === 200) {
+        const data = await response.json();
+        this.isInitialized = data.isInitialized;
+      }  
+    } catch (error) {
+      return false;
+    }
+  }
+  
   render(){
     return html`
       <style>
@@ -14,8 +42,8 @@ class Home extends LitElement {
         }
       </style>
       <div class="wrapper">
-        <pt-navbar></pt-navbar>
-        <pt-viewer></pt-viewer>
+        <pt-navbar isInitialized="${true}"></pt-navbar>
+        <pt-viewer domain="${domain}"></pt-viewer>
       </div>
     `;
   }
