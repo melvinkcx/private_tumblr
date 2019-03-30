@@ -2,7 +2,7 @@ import { LitElement, html } from 'lit-element';
 import '../components/navbar';
 import '../components/viewer';
 
-const DEBUG = true
+const DEBUG = false
 const domain = DEBUG ? 'http://localhost:5000' : '';
 
 class Home extends LitElement {

@@ -48,3 +48,12 @@ def get_posts():
     } for r in _results ]}
 
     return jsonify(results)
+
+@app.route('/initialized')
+def initialize():
+    if request.method == "GET":
+        pass
+    elif request.method = "POST":
+        pass
+    else:
+        pass
